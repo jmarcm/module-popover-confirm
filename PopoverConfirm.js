@@ -1,19 +1,14 @@
-class PopoverConfirm {
-    constructor(datas) {
-        this.trunk = datas.trunk;
-        this.message = this.setMessage(datas);
-        // this.display();
+var PopoverConfirm = (function () {
+    var trunk;
+    var message;
 
-        this.bindings();
+    initPopover = function (datas) {
+        
+        trunk = datas.trunk;
+        message = _setMessage(datas);
+    };
 
-        return this;
-    }
-
-    bindings() {
-        $(document).on("click", ".popover-confirm-cancel", this.cancelPopover);
-    }
-
-    setMessage(datas) {
+    _setMessage = function (datas) {
         var msg = ["<form class='confirm'>"];
         msg.push("<label>" + datas.msg + "</label>");
         // msg.push(
@@ -28,35 +23,34 @@ class PopoverConfirm {
         msg.push("</form>");
 
         return msg.join("");
-    }
+    };
 
-    display() {
+    /**
+     * Affiche la popover
+     */
+    display = function(datas) {
+        
+        initPopover(datas);
+
         // prepare popover
-        this.trunk.popover({
+        trunk.popover({
             animation: false,
             delay: 0,
             html: true,
             placement: "left",
             // viewport: ".commande-group",
-            content: this.message,
+            content: message,
         });
 
         // active le popover
-        this.trunk.popover("show");
+        trunk.popover("show");
+
+        console.log(this);
     }
 
-    cancelPopover(e) {
-        e.preventDefault();
-        console.log(PopoverConfirm);
-        // PopoverConfirm.close();
 
-        // this.trunk.on('hidden.bs.popover', function(){
-        //     alert('The popover is now hidden.');
-        //   });
+    return {
+        init: init,
+        display: display
     }
-
-    close() {
-        alert("sdfsdf");
-        // this.trunk.popover("destroy");
-    }
-}
+})();
