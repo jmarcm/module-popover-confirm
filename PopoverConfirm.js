@@ -3,6 +3,8 @@ var PopoverConfirm = (function () {
     var message;
     var validFunction;
 
+    var launched = false;
+
     _initPopover = function (datas) {
         datas = datas;
         trunk = datas.trunk;
@@ -10,9 +12,14 @@ var PopoverConfirm = (function () {
         validFunction = datas.validFunction;
 
         _bindingsPopoverConfirm();
+        
+        launched = true;
     };
 
     _bindingsPopoverConfirm = function () {
+
+        if(launched) return;
+        
         $(document).on("click", ".popover-confirm-cancel", _cancelPopover);
 
         $(document).on("click", ".popover-confirm-valid", _validPopover);
