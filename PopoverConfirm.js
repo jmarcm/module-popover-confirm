@@ -1,27 +1,45 @@
 class PopOverConfirm {
     constructor(datas) {
-        this.datas = datas;
+        this.trunk = datas.trunk;
+        this.message = this.setMessage(datas);
+
+        this.display();
     }
 
-    setMessage() {
+    setMessage(datas) {
         var msg = [
-            "<form class='confirm' data-datas='" +
-                JSON.stringify(this.datas) +
-                "'>",
+            "<form class='confirm'>",
         ];
-        msg.push("<label>" + this.datas.msg + "</label>");
+        msg.push("<label>" + datas.msg + "</label>");
         msg.push(
-            "<a href='#' class='button btn btn-xs btn-link exit'>Annuler</a>"
+            "<a href='#' class='button btn btn-xs btn-link popover-confirm-exit'>Annuler</a>"
         );
         msg.push(
-            "<a href='#' class='button btn btn-xs btn-success valid' >Oui</a>"
+            "<a href='#' class='button btn btn-xs btn-success popover-confirm-valid' >Oui</a>"
         );
         msg.push(
-            "<a href='#' class='button btn btn-xs btn-danger cancel' >Non</a>"
+            "<a href='#' class='button btn btn-xs btn-danger popover-confirm-cancel' >Non</a>"
         );
         msg.push("</form>");
 
         return msg.join("");
+    }
+
+
+    display() {
+        
+        // prepare popover
+        this.trunk.popover({
+            animation: false,
+            delay: 0,
+            html: true,
+            placement: 'left',
+            // viewport: ".commande-group",
+            content: this.message
+        });
+
+        // active le popover
+        this.trunk.popover("show");
     }
 
     popConfirmAction(datas_checked) {
