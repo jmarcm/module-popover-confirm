@@ -3,9 +3,7 @@ var PopoverConfirm = (function () {
     var message;
     var validFunction;
 
-
-    initPopover = function (datas) {
-        
+    _initPopover = function (datas) {
         datas = datas;
         trunk = datas.trunk;
         message = _setMessage(datas);
@@ -13,13 +11,12 @@ var PopoverConfirm = (function () {
 
         _bindingsPopoverConfirm();
     };
-    
-    _bindingsPopoverConfirm = function() {
 
+    _bindingsPopoverConfirm = function () {
         $(document).on("click", ".popover-confirm-cancel", _cancelPopover);
 
         $(document).on("click", ".popover-confirm-valid", _validPopover);
-    }
+    };
 
     _setMessage = function (datas) {
         var msg = ["<form class='confirm'>"];
@@ -41,9 +38,9 @@ var PopoverConfirm = (function () {
     /**
      * Affiche la popover
      */
-    display = function(datas) {
-        
-        initPopover(datas);
+    display = function (datas) {
+
+        _initPopover(datas);
 
         // prepare popover
         trunk.popover({
@@ -57,32 +54,24 @@ var PopoverConfirm = (function () {
 
         // active le popover
         trunk.popover("show");
-    }
+    };
 
-    close = function() {
-        
+    close = function () {
         trunk.popover("destroy");
+    };
 
-    }
-
-    _cancelPopover = function(e) {
-
+    _cancelPopover = function (e) {
         e.preventDefault();
-        console.log("PopoverConfirm");
         close();
-          
-    }
+    };
 
-
-    _validPopover = function(e) {
+    _validPopover = function (e) {
         e.preventDefault();
-        console.log("popver valid");
+        close();
         validFunction();
-    }
-
+    };
 
     return {
-        init: init,
         display: display
-    }
+    };
 })();
