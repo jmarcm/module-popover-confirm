@@ -1,12 +1,25 @@
 var PopoverConfirm = (function () {
     var trunk;
     var message;
+    var validFunction;
+
 
     initPopover = function (datas) {
         
+        datas = datas;
         trunk = datas.trunk;
         message = _setMessage(datas);
+        validFunction = datas.validFunction;
+
+        _bindingsPopoverConfirm();
     };
+    
+    _bindingsPopoverConfirm = function() {
+
+        $(document).on("click", ".popover-confirm-cancel", _cancelPopover);
+
+        $(document).on("click", ".popover-confirm-valid", _validPopover);
+    }
 
     _setMessage = function (datas) {
         var msg = ["<form class='confirm'>"];
@@ -44,8 +57,27 @@ var PopoverConfirm = (function () {
 
         // active le popover
         trunk.popover("show");
+    }
 
-        console.log(this);
+    close = function() {
+        
+        trunk.popover("destroy");
+
+    }
+
+    _cancelPopover = function(e) {
+
+        e.preventDefault();
+        console.log("PopoverConfirm");
+        close();
+          
+    }
+
+
+    _validPopover = function(e) {
+        e.preventDefault();
+        console.log("popver valid");
+        validFunction();
     }
 
 
