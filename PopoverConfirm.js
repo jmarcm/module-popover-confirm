@@ -1,19 +1,24 @@
-class PopoverConfirm {
-    constructor(datas) {
-        this.trunk = datas.trunk;
-        this.message = this.setMessage(datas);
-        // this.display();
+var PopoverConfirm = (function () {
+    var trunk;
+    var message;
+    var validFunction;
 
-        this.bindings();
+    _initPopover = function (datas) {
+        datas = datas;
+        trunk = datas.trunk;
+        message = _setMessage(datas);
+        validFunction = datas.validFunction;
 
-        return this;
-    }
+        _bindingsPopoverConfirm();
+    };
 
-    bindings() {
-        $(document).on("click", ".popover-confirm-cancel", this.cancelPopover);
-    }
+    _bindingsPopoverConfirm = function () {
+        $(document).on("click", ".popover-confirm-cancel", _cancelPopover);
 
-    setMessage(datas) {
+        $(document).on("click", ".popover-confirm-valid", _validPopover);
+    };
+
+    _setMessage = function (datas) {
         var msg = ["<form class='confirm'>"];
         msg.push("<label>" + datas.msg + "</label>");
         // msg.push(
@@ -28,35 +33,45 @@ class PopoverConfirm {
         msg.push("</form>");
 
         return msg.join("");
-    }
+    };
 
-    display() {
+    /**
+     * Affiche la popover
+     */
+    display = function (datas) {
+
+        _initPopover(datas);
+
         // prepare popover
-        this.trunk.popover({
+        trunk.popover({
             animation: false,
             delay: 0,
             html: true,
             placement: "left",
             // viewport: ".commande-group",
-            content: this.message,
+            content: message,
         });
 
         // active le popover
-        this.trunk.popover("show");
-    }
+        trunk.popover("show");
+    };
 
-    cancelPopover(e) {
+    close = function () {
+        trunk.popover("destroy");
+    };
+
+    _cancelPopover = function (e) {
         e.preventDefault();
-        console.log(PopoverConfirm);
-        // PopoverConfirm.close();
+        close();
+    };
 
-        // this.trunk.on('hidden.bs.popover', function(){
-        //     alert('The popover is now hidden.');
-        //   });
-    }
+    _validPopover = function (e) {
+        e.preventDefault();
+        close();
+        validFunction();
+    };
 
-    close() {
-        alert("sdfsdf");
-        // this.trunk.popover("destroy");
-    }
-}
+    return {
+        display: display
+    };
+})();
