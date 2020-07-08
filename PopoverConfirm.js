@@ -54,7 +54,7 @@ var PopoverConfirm = (function () {
             animation: false,
             delay: 0,
             html: true,
-            placement: "left",
+            placement: "bottom",
             // viewport: ".commande-group",
             content: message,
         });
